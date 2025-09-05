@@ -1,7 +1,6 @@
-# Web Framework Options
+# Flask Web Framework
 flask==3.0.0
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
+flask-cors==4.0.0
 
 # Testing
 pytest==7.4.3
@@ -10,8 +9,12 @@ requests==2.31.0
 # Development
 python-dotenv==1.0.0
 
-# Database (optional)
-sqlalchemy==2.0.23
+# Database (optional - uncomment if needed)
+# sqlalchemy==2.0.23
 
-# Additional utilities
-pydantic==2.5.0
+# Code execution and validation
+# pylint==3.0.3
+# black==23.12.1
+
+# Performance monitoring (optional)
+# flask-limiter==3.6.0

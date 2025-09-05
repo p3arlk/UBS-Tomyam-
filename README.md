@@ -1,22 +1,294 @@
 # UBS Coding Challenge 2025 🚀
 
-A comprehensive web server template for coding challenges, featuring both **Flask** and **FastAPI** implementations with complete API endpoints, testing, and deployment configurations.
+A comprehensive **Flask-based** web server for coding challenges, featuring complete API endpoints, real-time scoring, leaderboard tracking, and automated solution validation.
 
 ![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
 ![Flask](https://img.shields.io/badge/flask-3.0.0-green.svg)
-![FastAPI](https://img.shields.io/badge/fastapi-0.104.1-teal.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)
 
 ## ✨ Features
 
-- 🐍 **Dual Framework Support**: Choose between Flask (simple) or FastAPI (advanced)
-- 📚 **Auto-Generated Documentation**: Interactive API docs with FastAPI
-- 🧪 **Complete Testing Suite**: Unit tests and integration tests included
-- 🐳 **Docker Ready**: Containerized deployment with Docker Compose
+- 🏆 **Complete Coding Challenge Platform**: End-to-end pipeline for competitive programming
+- 🧪 **Automated Solution Validation**: Real-time code testing and scoring
+- 📊 **Live Leaderboard**: Real-time participant rankings and statistics  
+- 🎯 **Challenge Management**: Pre-built coding challenges with test cases
 - 🔒 **Production Ready**: Environment configuration and security considerations
-- 🎯 **Challenge Management**: CRUD operations for coding challenges
-- 📝 **Solution Submission**: Handle and validate code submissions
-- 🏥 **Health Monitoring**: Built-in health check endpoints
+- 🏥 **Health Monitoring**: Built-in monitoring and status endpoints
+- 🌐 **CORS Support**: Cross-origin request handling for web frontends
+- 📝 **Comprehensive API**: RESTful endpoints for all challenge operations
+
+## 🎯 Perfect For
+- **Coding Competitions & Hackathons**
+- **Technical Interviews & Assessments** 
+- **Programming Bootcamps & Education**
+- **Corporate Training & Team Building**
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11 or higher
+- pip (Python package manager)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/ubs-coding-challenge-2025.git
+cd ubs-coding-challenge-2025
+```
+
+2. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+3. **Set up environment variables**
+```bash
+cp .env.template .env
+# Edit .env with your configuration
+```
+
+4. **Start the server**
+
+**Option A: Windows Batch Script**
+```bash
+# Double-click start_flask.bat
+```
+
+**Option B: Python Script**
+```bash
+python start_flask.py
+```
+
+**Option C: Manual Start**
+```bash
+cd flask_app
+python app.py
+```
+
+🌐 **Server runs at:** http://localhost:5000
+
+## 🌐 API Endpoints
+
+### Core Endpoints
+- `GET /` - Welcome message and API overview
+- `GET /health` - Health check and system status
+- `GET /api/` - API information and statistics
+
+### Challenge Management
+- `GET /api/challenges` - List all challenges (with filtering)
+- `GET /api/challenges/<id>` - Get detailed challenge information
+- Filter by difficulty: `/api/challenges?difficulty=Easy`
+
+### Solution Submission & Tracking
+- `POST /api/submit` - Submit solution for validation
+- `GET /api/submissions/<id>` - Get submission details and status
+
+### Leaderboard & Statistics
+- `GET /api/leaderboard` - Current participant rankings
+- `GET /api/status` - Comprehensive API statistics
+
+## 🧪 Testing
+
+### Run the comprehensive test client
+```bash
+python test_client.py
+```
+
+### Run unit tests
+```bash
+pytest tests/ -v
+```
+
+### Test API endpoints manually
+```bash
+# Health check
+curl http://localhost:5000/health
+
+# Get challenges
+curl http://localhost:5000/api/challenges
+
+# Submit solution
+curl -X POST http://localhost:5000/api/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "challenge_id": 1,
+    "solution": "def two_sum(nums, target): return [0, 1]",
+    "participant_name": "YourName"
+  }'
+```
+
+## 📊 Sample Challenges Included
+
+1. **Two Sum** (Easy - 100 pts)
+   - Classic array problem with hash map optimization
+   - Tests algorithmic thinking and optimization
+
+2. **Valid Parentheses** (Medium - 200 pts)  
+   - Stack-based string validation problem
+   - Tests data structure knowledge
+
+3. **Merge Sorted Arrays** (Hard - 300 pts)
+   - In-place array merging with two pointers
+   - Tests advanced array manipulation
+
+## 🏆 Scoring System
+
+- **Automatic Code Validation**: Syntax checking and basic logic validation
+- **Intelligent Scoring**: Points awarded based on solution quality and approach
+- **Real-time Feedback**: Immediate status updates (accepted/rejected/partial)
+- **Leaderboard Integration**: Automatic ranking updates
+
+## 🎯 Usage Examples
+
+### Submit a Solution
+```python
+import requests
+
+solution_data = {
+    "challenge_id": 1,
+    "participant_name": "Alice",
+    "solution": """
+def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+"""
+}
+
+response = requests.post(
+    "http://localhost:5000/api/submit",
+    json=solution_data
+)
+print(response.json())
+```
+
+### Check Leaderboard
+```python
+response = requests.get("http://localhost:5000/api/leaderboard")
+leaderboard = response.json()
+
+for participant in leaderboard['leaderboard']:
+    print(f"{participant['rank']}. {participant['participant_name']} - {participant['total_score']} points")
+```
+
+## 🛠 Customization
+
+### Adding New Challenges
+Edit `flask_app/routes.py` and add to `SAMPLE_CHALLENGES`:
+
+```python
+{
+    'id': 4,
+    'title': 'Your Challenge',
+    'difficulty': 'Medium',
+    'points': 200,
+    'description': 'Your challenge description...',
+    'test_cases': [
+        {'input': {'param': 'value'}, 'expected': 'result'}
+    ]
+}
+```
+
+### Custom Scoring Logic
+Modify the `validate_solution()` function in `routes.py` to implement your scoring algorithm.
+
+### Database Integration
+- Uncomment SQLAlchemy in `requirements.txt`
+- Replace in-memory storage with database models
+- Update connection string in `.env`
+
+## 🐳 Docker Deployment
+
+```bash
+# Build and run
+docker build -t ubs-challenge .
+docker run -p 5000:5000 ubs-challenge
+
+# Or use Docker Compose
+docker-compose up flask-app
+```
+
+## ⚙️ Configuration
+
+### Environment Variables (.env)
+```bash
+DEBUG=True
+SECRET_KEY=your-secure-secret-key
+PORT=5000
+ALLOWED_ORIGINS=*
+```
+
+## 📁 Project Structure
+
+```
+├── flask_app/              # Main Flask application
+│   ├── app.py             # Flask app configuration
+│   ├── routes.py          # API endpoints and logic
+│   └── models.py          # Data models
+├── tests/                 # Test suite
+├── start_flask.py         # Python startup script
+├── start_flask.bat        # Windows startup script  
+├── test_client.py         # API testing client
+├── requirements.txt       # Flask-specific dependencies
+├── .env.template         # Environment configuration
+└── README.md             # This file
+```
+
+## � Production Deployment
+
+1. **Set production environment**:
+   ```bash
+   export FLASK_ENV=production
+   export DEBUG=False
+   ```
+
+2. **Use production WSGI server**:
+   ```bash
+   pip install gunicorn
+   gunicorn -w 4 -b 0.0.0.0:5000 flask_app.app:app
+   ```
+
+3. **Configure reverse proxy** (nginx/Apache)
+
+4. **Set up SSL certificates**
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🌟 Why Flask?
+
+- **Simplicity**: Easy to understand and extend
+- **Reliability**: Battle-tested framework with excellent documentation
+- **Flexibility**: Perfect for coding challenges and rapid prototyping
+- **Performance**: Lightweight and fast for competition scenarios
+- **Community**: Large ecosystem and extensive third-party support
+
+## 🆘 Support
+
+- 📖 Check the comprehensive test client: `python test_client.py`
+- 🐛 Report issues on GitHub
+- 💡 Contribute improvements and new features
+
+---
+
+**Ready to run your coding challenge?** 🏆
+
+Start the server and begin coding! 🚀
 
 ## 🚀 Quick Start
 
