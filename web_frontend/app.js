@@ -1,14 +1,12 @@
-// UBS Coding Challenge 2025 - Participant Frontend JavaScript
-
 // Configuration
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'http://localhost:5000';    // change the url to the ubs challenge website
 let currentParticipant = 'Anonymous';
 let challenges = [];
 let mySubmissions = [];
 
 // Initialize app when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('UBS Coding Challenge 2025 - Participant Interface Loaded');
+    console.log('Interface Loaded');
     initializeApp();
 });
 
