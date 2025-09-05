@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBS Coding Challenge 2025</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i></i>UBS Coding Challenge 2025</h1>
+                <!-- <p>Test your programming skills and climb the leaderboard!</p> -->
+            </div>
+            <div class="participant-info">
+                <input type="text" id="participantName" placeholder="Enter your name" maxlength="20">
+                <button onclick="setParticipant()" class="btn btn-primary">Set Name</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('challenges')">
+                <i class="fas fa-code"></i> Challenges
+            </button>
+            <button class="tab-btn" onclick="showTab('submit')">
+                <i class="fas fa-paper-plane"></i> Submit Solution
+            </button>
+            <button class="tab-btn" onclick="showTab('status')">
+                <i class="fas fa-clock"></i> My Submissions
+            </button>
+            <button class="tab-btn" onclick="showTab('leaderboard')">
+                <i class="fas fa-medal"></i> Leaderboard
+            </button>
+        </nav>
+
+        <!-- Challenges Tab -->
+        <div id="challenges" class="tab-content active">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Available Challenges</h2>
+                <button onclick="loadChallenges()" class="btn btn-secondary">
+                    <i class="fas fa-refresh"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="filters">
+                <select id="difficultyFilter" onchange="filterChallenges()">
+                    <option value="">All Difficulties</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+
+            <div id="challengesList" class="challenges-grid">
+                <div class="loading">Loading challenges...</div>
+            </div>
+        </div>
+
+        <!-- Submit Solution Tab -->
+        <div id="submit" class="tab-content">
+            <div class="section-header">
+                <h2><i class="fas fa-code"></i> Submit Your Solution</h2>
+            </div>
+            
+            <div class="submit-form">
+                <div class="form-group">
+                    <label for="challengeSelect">Select Challenge:</label>
+                    <select id="challengeSelect" required>
+                        <option value="">Choose a challenge...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="solutionCode">Your Solution:</label>
+                    <textarea id="solutionCode" placeholder="Enter your Python code here..." rows="15" required></textarea>
+                    <div class="code-info">
+                        <small><i class="fas fa-info-circle"></i> Write your solution in Python. Make sure to include proper function definitions.</small>
+                    </div>
+                </div>
+
+                <div class="submit-actions">
+                    <button onclick="submitSolution()" class="btn btn-primary btn-large">
+                        <i class="fas fa-paper-plane"></i> Submit Solution
+                    </button>
+                    <button onclick="clearSolution()" class="btn btn-secondary">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <div id="submitResult" class="result-panel" style="display: none;"></div>
+        </div>
+
+        <!-- Status Tab -->
+        <div id="status" class="tab-content">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> My Submissions</h2>
+                <button onclick="loadMySubmissions()" class="btn btn-secondary">
+                    <i class="fas fa-refresh"></i> Refresh
+                </button>
+            </div>
+            
+            <div id="submissionsList" class="submissions-list">
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No submissions yet. Submit your first solution!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Tab -->
+        <div id="leaderboard" class="tab-content">
+            <div class="section-header">
+                <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
+                <button onclick="loadLeaderboard()" class="btn btn-secondary">
+                    <i class="fas fa-refresh"></i> Refresh
+                </button>
+            </div>
+            
+            <div id="leaderboardTable" class="leaderboard">
+                <div class="loading">Loading leaderboard...</div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <i class="fas fa-server"></i>
+                <span id="serverStatus">Connecting...</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-user"></i>
+                <span id="currentUser">Anonymous</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-clock"></i>
+                <span id="lastUpdate">Never</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
