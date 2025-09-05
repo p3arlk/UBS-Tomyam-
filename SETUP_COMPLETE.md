@@ -1,8 +1,4 @@
-# UBS Coding Challenge 2025 - Setup Complete! 🎉
-
-## What's Been Created
-
-Your end-to-end pipeline for the coding challenge is now ready! Here's what you have:
+# UBS Coding Challenge 2025
 
 ### 📁 Project Structure
 ```
@@ -145,8 +141,4 @@ pytest tests/
 
 - **For beginners**: Start with Flask - it's simpler and more straightforward
 - **For advanced features**: Use FastAPI - automatic docs, better validation, async support
-- **For production**: Consider FastAPI with proper database integration
 
-Both servers are production-ready templates that you can extend based on your specific needs!
-
-Happy coding! 🚀
