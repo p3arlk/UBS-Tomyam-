@@ -1,20 +1,10 @@
-# 🌐 UBS Coding Challenge 2025 - Participant Frontend
+# UBS Coding Challenge 2025
 
-A modern, responsive web interface for participants to interact with the UBS Coding Challenge API. Built with vanilla HTML, CSS, and JavaScript for maximum compatibility and ease of deployment.
-
-## ✨ Features
-
-### 🎯 **Complete Participant Experience**
+### 🎯 **Features**
 - **View Challenges**: Browse available coding challenges with difficulty levels and point values
 - **Submit Solutions**: Code editor with syntax highlighting and real-time validation
 - **Track Progress**: Monitor your submission status and scores
 - **Live Leaderboard**: See real-time rankings and compete with other participants
-
-### 🎨 **Modern UI/UX**
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- **Dark/Light Theme**: Professional gradient design with clean typography
-- **Interactive Elements**: Smooth animations and hover effects
-- **Real-time Updates**: Auto-refreshing leaderboard and status updates
 
 ### 🚀 **Developer-Friendly**
 - **No Build Process**: Pure HTML/CSS/JS - works immediately
@@ -281,7 +271,3 @@ Enable debug logging by adding to browser console:
 ```javascript
 localStorage.debug = true;
 ```
-
----
-
-**Ready to compete? Start both servers and begin coding!** 🏆
