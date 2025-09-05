@@ -28,8 +28,7 @@ A comprehensive web server template for coding challenges, featuring both **Flas
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/ubs-coding-challenge-2025.git
-cd ubs-coding-challenge-2025
+git clone https://github.com/p3arlk/UBS-Tomyam-.git
 ```
 
 2. **Install dependencies**
