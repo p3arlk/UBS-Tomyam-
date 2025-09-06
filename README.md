@@ -300,8 +300,7 @@ Start the server and begin coding! 🚀
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/ubs-coding-challenge-2025.git
-cd ubs-coding-challenge-2025
+git clone https://github.com/p3arlk/UBS-Tomyam-.git
 ```
 
 2. **Install dependencies**

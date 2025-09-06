@@ -1,15 +1,12 @@
 // Configuration
-// Auto-detect API base URL based on environment
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000'  // Development
-    : window.location.origin;  // Production (same domain)
+const API_BASE_URL = 'http://localhost:5000';
 let currentParticipant = 'Anonymous';
 let challenges = [];
 let mySubmissions = [];
 
 // Initialize app when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('UBS Coding Challenge 2025 - Participant Interface Loaded');
+    console.log('Interface Loaded');
     initializeApp();
 });
 
