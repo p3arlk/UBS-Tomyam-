@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask.logging import create_logger
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -10,6 +11,9 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+    
+    # Enable CORS for all routes
+    CORS(app)
     
     # Configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
@@ -22,7 +26,7 @@ def create_app():
     @app.route('/')
     def home():
         return jsonify({
-            'message': 'UBS Coding Challenge 2025 - Flask Server',
+            'message': '67 Tomyam UBS Coding Challenge 2025 Flask Server',
             'timestamp': datetime.now().isoformat(),
             'endpoints': {
                 'health': '/health',

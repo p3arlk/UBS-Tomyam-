@@ -1,7 +1,8 @@
-// UBS Coding Challenge 2025 - Participant Frontend JavaScript
-
 // Configuration
-const API_BASE_URL = 'http://localhost:5000';
+// Auto-detect API base URL based on environment
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000'  // Development
+    : window.location.origin;  // Production (same domain)
 let currentParticipant = 'Anonymous';
 let challenges = [];
 let mySubmissions = [];
@@ -444,4 +445,150 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// External API Functions
+async function fetchJSONPlaceholderPosts() {
+    const resultsDiv = document.getElementById('jsonplaceholder-results');
+    showApiLoading(resultsDiv, 'Fetching posts from JSONPlaceholder...');
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/external/jsonplaceholder`);
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            showApiSuccess(resultsDiv, 'JSONPlaceholder Posts', data);
+        } else {
+            showApiError(resultsDiv, data.message || 'Failed to fetch posts');
+        }
+    } catch (error) {
+        console.error('JSONPlaceholder fetch error:', error);
+        showApiError(resultsDiv, `Network error: ${error.message}`);
+    }
+}
+
+async function fetchHTTPBinData() {
+    const resultsDiv = document.getElementById('httpbin-results');
+    showApiLoading(resultsDiv, 'Testing HTTPBin API...');
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/external/httpbin`);
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            showApiSuccess(resultsDiv, 'HTTPBin Test Result', data);
+        } else {
+            showApiError(resultsDiv, data.message || 'HTTPBin test failed');
+        }
+    } catch (error) {
+        console.error('HTTPBin fetch error:', error);
+        showApiError(resultsDiv, `Network error: ${error.message}`);
+    }
+}
+
+async function fetchWeatherData() {
+    const city = document.getElementById('weather-city').value.trim() || 'London';
+    const resultsDiv = document.getElementById('weather-results');
+    showApiLoading(resultsDiv, `Fetching weather for ${city}...`);
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/external/weather?city=${encodeURIComponent(city)}`);
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            showApiSuccess(resultsDiv, `Weather for ${city}`, data);
+        } else {
+            showApiError(resultsDiv, data.message || 'Failed to fetch weather data');
+        }
+    } catch (error) {
+        console.error('Weather fetch error:', error);
+        showApiError(resultsDiv, `Network error: ${error.message}`);
+    }
+}
+
+async function makeCustomRequest() {
+    const url = document.getElementById('custom-url').value.trim();
+    const method = document.getElementById('custom-method').value;
+    const bodyText = document.getElementById('custom-body').value.trim();
+    const resultsDiv = document.getElementById('custom-results');
+    
+    if (!url) {
+        showApiError(resultsDiv, 'Please enter a URL');
+        return;
+    }
+    
+    showApiLoading(resultsDiv, `Making ${method} request to ${url}...`);
+    
+    try {
+        const requestBody = {
+            url: url,
+            method: method
+        };
+        
+        if (method === 'POST' && bodyText) {
+            try {
+                requestBody.body = JSON.parse(bodyText);
+            } catch (e) {
+                showApiError(resultsDiv, 'Invalid JSON in request body');
+                return;
+            }
+        }
+        
+        const response = await fetch(`${API_BASE_URL}/api/external/custom`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            showApiSuccess(resultsDiv, 'Custom Request Result', data);
+        } else {
+            showApiError(resultsDiv, data.message || 'Custom request failed');
+        }
+    } catch (error) {
+        console.error('Custom request error:', error);
+        showApiError(resultsDiv, `Network error: ${error.message}`);
+    }
+}
+
+// API Result Display Functions
+function showApiLoading(element, message) {
+    element.className = 'api-results show loading';
+    element.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${message}`;
+}
+
+function showApiSuccess(element, title, data) {
+    element.className = 'api-results show success';
+    
+    const timestamp = new Date(data.timestamp).toLocaleString();
+    const source = data.source || 'Unknown';
+    
+    let content = `
+        <div class="result-header">${title}</div>
+        <div class="result-meta">
+            <strong>Source:</strong> ${source}<br>
+            <strong>Timestamp:</strong> ${timestamp}<br>
+            <strong>Status:</strong> ${data.status}
+        </div>
+        <pre>${JSON.stringify(data, null, 2)}</pre>
+    `;
+    
+    element.innerHTML = content;
+}
+
+function showApiError(element, message) {
+    element.className = 'api-results show error';
+    element.innerHTML = `
+        <div class="result-header">Error</div>
+        <div class="result-meta">
+            <strong>Timestamp:</strong> ${new Date().toLocaleString()}
+        </div>
+        <p><i class="fas fa-exclamation-triangle"></i> ${message}</p>
+    `;
+}
+
 console.log('UBS Coding Challenge 2025 - Participant Interface Ready!');
+console.log('External API integration loaded!');
+

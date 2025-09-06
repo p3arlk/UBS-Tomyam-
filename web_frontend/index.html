@@ -13,13 +13,13 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1><i></i>UBS Coding Challenge 2025</h1>
+                <h1>67 Tomyam UBS Coding Challenge 2025</h1>
                 <!-- <p>Test your programming skills and climb the leaderboard!</p> -->
             </div>
-            <div class="participant-info">
+            <!-- <div class="participant-info">
                 <input type="text" id="participantName" placeholder="Enter your name" maxlength="20">
                 <button onclick="setParticipant()" class="btn btn-primary">Set Name</button>
-            </div>
+            </div> -->
         </header>
 
         <!-- Navigation -->
@@ -32,6 +32,9 @@
             </button>
             <button class="tab-btn" onclick="showTab('status')">
                 <i class="fas fa-clock"></i> My Submissions
+            </button>
+            <button class="tab-btn" onclick="showTab('external')">
+                <i class="fas fa-globe"></i> External APIs
             </button>
             <button class="tab-btn" onclick="showTab('leaderboard')">
                 <i class="fas fa-medal"></i> Leaderboard
@@ -110,6 +113,63 @@
                     <i class="fas fa-inbox"></i>
                     <p>No submissions yet. Submit your first solution!</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- External APIs Tab -->
+        <div id="external" class="tab-content">
+            <div class="section-header">
+                <h2><i class="fas fa-globe"></i> External APIs</h2>
+                <p>Test external API integrations through your Flask server</p>
+            </div>
+            
+            <div class="api-section">
+                <h3><i class="fas fa-newspaper"></i> JSONPlaceholder Posts</h3>
+                <p>Fetch sample posts from JSONPlaceholder API</p>
+                <button onclick="fetchJSONPlaceholderPosts()" class="btn btn-primary">
+                    <i class="fas fa-download"></i> Fetch Posts
+                </button>
+                <div id="jsonplaceholder-results" class="api-results"></div>
+            </div>
+
+            <div class="api-section">
+                <h3><i class="fas fa-cog"></i> HTTPBin Test</h3>
+                <p>Test HTTP requests using HTTPBin service</p>
+                <button onclick="fetchHTTPBinData()" class="btn btn-primary">
+                    <i class="fas fa-test-tube"></i> Test HTTPBin
+                </button>
+                <div id="httpbin-results" class="api-results"></div>
+            </div>
+
+            <div class="api-section">
+                <h3><i class="fas fa-cloud-sun"></i> Weather Demo</h3>
+                <p>Get weather information (demo)</p>
+                <div class="form-group">
+                    <input type="text" id="weather-city" placeholder="Enter city name" value="London">
+                    <button onclick="fetchWeatherData()" class="btn btn-primary">
+                        <i class="fas fa-cloud"></i> Get Weather
+                    </button>
+                </div>
+                <div id="weather-results" class="api-results"></div>
+            </div>
+
+            <div class="api-section">
+                <h3><i class="fas fa-code"></i> Custom API Request</h3>
+                <p>Make custom requests to allowed external APIs</p>
+                <div class="form-group">
+                    <select id="custom-method">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                    </select>
+                    <input type="text" id="custom-url" placeholder="Enter API URL" value="https://jsonplaceholder.typicode.com/users">
+                    <button onclick="makeCustomRequest()" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Request
+                    </button>
+                </div>
+                <div class="form-group">
+                    <textarea id="custom-body" placeholder="Request body (JSON, for POST requests)" rows="3"></textarea>
+                </div>
+                <div id="custom-results" class="api-results"></div>
             </div>
         </div>
 

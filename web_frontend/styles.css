@@ -484,3 +484,128 @@ body {
         padding: 1rem;
     }
 }
+
+/* External APIs Styles */
+.api-section {
+    background: #f8f9fc;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.api-section h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.api-section p {
+    color: #6c757d;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+}
+
+.api-results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+}
+
+.api-results.show {
+    display: block;
+}
+
+.api-results.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.api-results.error {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.api-results.success {
+    background: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.api-results pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.api-results .result-header {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.api-results .result-meta {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        flex-direction: column;
+    }
+    
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        min-width: auto;
+        width: 100%;
+    }
+}
