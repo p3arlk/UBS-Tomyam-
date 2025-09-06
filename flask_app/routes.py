@@ -1,75 +1,54 @@
-from flask import Blueprint, jsonify, request
-from datetime import datetime
-import json
+# flask_app/routes.py
+from flask import Blueprint, request, jsonify
+from math import hypot
 
-# Create API blueprint
 api_bp = Blueprint('api', __name__)
 
-# Sample data for demonstration
-sample_data = [
-    {'id': 1, 'name': 'Challenge 1', 'difficulty': 'Easy', 'points': 100},
-    {'id': 2, 'name': 'Challenge 2', 'difficulty': 'Medium', 'points': 200},
-    {'id': 3, 'name': 'Challenge 3', 'difficulty': 'Hard', 'points': 300},
-]
+VIP_POINTS = 100
+CARD_POINTS = 50
 
-@api_bp.route('/')
-def api_home():
-    return jsonify({
-        'message': 'UBS Coding Challenge API',
-        'version': '1.0',
-        'endpoints': {
-            'challenges': '/challenges',
-            'challenges_by_id': '/challenges/<id>',
-            'submit': '/submit',
-            'status': '/status'
-        }
-    })
+def latency_points(d: float) -> int:
+    if d <= 2.0: return 30
+    if d <= 4.0: return 20
+    return 0
 
-@api_bp.route('/challenges', methods=['GET'])
-def get_challenges():
-    """Get all challenges"""
-    return jsonify({
-        'challenges': sample_data,
-        'count': len(sample_data),
-        'timestamp': datetime.now().isoformat()
-    })
+@api_bp.route('/ticketing-agent', methods=['POST'])
+def ticketing_agent():
+    if request.content_type != 'application/json':
+        return jsonify({"error": "Content-Type must be application/json"}), 400
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid JSON body"}), 400
 
-@api_bp.route('/challenges/<int:challenge_id>', methods=['GET'])
-def get_challenge(challenge_id):
-    """Get a specific challenge by ID"""
-    challenge = next((c for c in sample_data if c['id'] == challenge_id), None)
-    if challenge:
-        return jsonify(challenge)
-    return jsonify({'error': 'Challenge not found'}), 404
+    customers = data.get("customers", [])
+    concerts = data.get("concerts", [])
+    priority = data.get("priority", {})
 
-@api_bp.route('/submit', methods=['POST'])
-def submit_solution():
-    """Submit a solution"""
-    data = request.get_json()
-    if not data:
-        return jsonify({'error': 'No data provided'}), 400
-    
-    required_fields = ['challenge_id', 'solution']
-    if not all(field in data for field in required_fields):
-        return jsonify({'error': 'Missing required fields: challenge_id, solution'}), 400
-    
-    # Here you would typically validate and process the solution
-    response = {
-        'status': 'received',
-        'challenge_id': data['challenge_id'],
-        'submission_id': f"sub_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
-        'timestamp': datetime.now().isoformat(),
-        'message': 'Solution submitted successfully'
-    }
-    
-    return jsonify(response), 201
+    # Pre-process concerts (preserve order)
+    clist = []
+    for c in concerts:
+        name = c["name"]
+        x, y = c["booking_center_location"]
+        clist.append((name, float(x), float(y)))
 
-@api_bp.route('/status', methods=['GET'])
-def get_status():
-    """Get API status"""
-    return jsonify({
-        'status': 'operational',
-        'uptime': 'Unknown',  # You could track this
-        'total_challenges': len(sample_data),
-        'timestamp': datetime.now().isoformat()
-    })
+    out = {}
+    for cust in customers:
+        cname = cust["name"]
+        vip = bool(cust["vip_status"])
+        cx, cy = map(float, cust["location"])
+        card = cust["credit_card"]
+
+        best_name, best_score = None, float("-inf")
+        for (n, x, y) in clist:
+            score = (VIP_POINTS if vip else 0)
+            if priority.get(card) == n:
+                score += CARD_POINTS
+            d = hypot(cx - x, cy - y)
+            score += latency_points(d)
+            if score > best_score:
+                best_score, best_name = score, n
+        out[cname] = best_name or ""
+
+    resp = jsonify(out)
+    resp.headers["Content-Type"] = "application/json"
+    return resp
